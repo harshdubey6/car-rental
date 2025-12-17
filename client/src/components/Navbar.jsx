@@ -1,0 +1,168 @@
+import React, { useState } from 'react'
+import { assets, menuLinks } from '../assets/assets'
+import {Link, useLocation, useNavigate} from 'react-router-dom'
+import { useAppContext } from '../context/AppContext'
+import toast from 'react-hot-toast'
+import {motion} from 'motion/react'
+
+const Navbar = () => {
+
+    const {setShowLogin, user, logout, isOwner, axios, setIsOwner} = useAppContext()
+
+    const location = useLocation()
+    const [open, setOpen] = useState(false)
+    const navigate = useNavigate()
+
+    const changeRole = async ()=>{
+        try {
+            const { data } = await axios.post('/api/owner/change-role')
+            if (data.success) {
+                setIsOwner(true)
+                toast.success(data.message)
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+  return (
+    <motion.nav 
+    initial={{y: -20, opacity: 0}}
+    animate={{y: 0, opacity: 1}}
+    transition={{duration: 0.5}}
+    className={`flex items-center justify-between px-6 md:px-10 lg:px-16 xl:px-24 py-4 text-gray-700 border-b border-gray-200 relative transition-all backdrop-blur-md bg-white/95 ${location.pathname === "/" && "bg-gradient-to-b from-white/98 to-white/95"}`}>
+
+        <Link to='/' className="flex items-center gap-2">
+            <motion.img 
+                whileHover={{scale: 1.05}} 
+                whileTap={{scale: 0.95}}
+                src={assets.logo} 
+                alt="logo" 
+                className="h-8 transition-all"
+            />
+            <span className="hidden sm:block font-bold text-lg bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent"></span>
+        </Link>
+
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-8">
+            {menuLinks.map((link, index)=> (
+                <motion.div
+                    key={index}
+                    whileHover={{ y: -2 }}
+                >
+                    <Link 
+                        to={link.path}
+                        className={`text-sm font-medium transition-colors ${location.pathname === link.path ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}
+                    >
+                        {link.name}
+                    </Link>
+                </motion.div>
+            ))}
+
+            <motion.div 
+                className='flex items-center text-sm gap-2 border border-gray-300 px-4 py-2.5 rounded-full bg-gray-50 hover:bg-gray-100 transition-all'
+                whileHover={{ scale: 1.02 }}
+            >
+                <input 
+                    type="text" 
+                    className="py-1 w-48 bg-transparent outline-none placeholder-gray-500 text-gray-700" 
+                    placeholder="Search cars"
+                />
+                <img src={assets.search_icon} alt="search" className="opacity-60 hover:opacity-100 cursor-pointer transition-opacity"/>
+            </motion.div>
+        </div>
+
+        {/* Desktop Actions */}
+        <div className='hidden md:flex items-center gap-4'>
+            <motion.button 
+                onClick={()=> isOwner ? navigate('/owner') : changeRole()} 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+            >
+                {isOwner ? '📊 Dashboard' : '🏢 List Cars'}
+            </motion.button>
+
+            <motion.button 
+                onClick={()=> {user ? logout() : setShowLogin(true)}} 
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white rounded-lg font-medium transition-all shadow-md hover:shadow-lg text-sm"
+            >
+                {user ? 'Logout' : 'Sign In'}
+            </motion.button>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <motion.button 
+            className='md:hidden cursor-pointer p-2 hover:bg-gray-100 rounded-lg transition-all' 
+            aria-label="Menu"
+            onClick={()=> setOpen(!open)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+        >
+            <motion.svg 
+                animate={{ rotate: open ? 90 : 0 }}
+                transition={{ duration: 0.3 }}
+                className="w-6 h-6" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+            >
+                {open ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+            </motion.svg>
+        </motion.button>
+
+        {/* Mobile Menu */}
+        <motion.div 
+            animate={{ 
+                opacity: open ? 1 : 0,
+                y: open ? 0 : -20,
+                pointerEvents: open ? 'auto' : 'none'
+            }}
+            transition={{ duration: 0.3 }}
+            className={`md:hidden absolute top-16 right-0 left-0 bg-white border-t border-gray-200 shadow-xl z-50`}
+        >
+            <div className="p-6 flex flex-col gap-4">
+                {menuLinks.map((link, index)=> (
+                    <Link 
+                        key={index}
+                        to={link.path}
+                        onClick={() => setOpen(false)}
+                        className={`text-sm font-medium py-2 transition-colors ${location.pathname === link.path ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}
+                    >
+                        {link.name}
+                    </Link>
+                ))}
+
+                <div className="border-t border-gray-200 pt-4 flex flex-col gap-3">
+                    <motion.button 
+                        onClick={()=> {isOwner ? navigate('/owner') : changeRole(); setOpen(false)}}
+                        whileHover={{ scale: 1.02 }}
+                        className="w-full px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg transition-all text-left"
+                    >
+                        {isOwner ? '📊 Dashboard' : '🏢 List Cars'}
+                    </motion.button>
+
+                    <motion.button 
+                        onClick={()=> {user ? logout() : setShowLogin(true); setOpen(false)}}
+                        whileHover={{ scale: 1.02 }}
+                        className="w-full px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg font-medium text-sm"
+                    >
+                        {user ? 'Logout' : 'Sign In'}
+                    </motion.button>
+                </div>
+            </div>
+        </motion.div>
+      
+    </motion.nav>
+  )
+}
+
+export default Navbar
