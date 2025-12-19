@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 
 const Login = () => {
 
-    const {setShowLogin, axios, setToken, navigate} = useAppContext()
+    const {setShowLogin, axios, setToken, navigate, loginType, setLoginType} = useAppContext()
 
     const [state, setState] = React.useState("login");
     const [name, setName] = React.useState("");
@@ -17,7 +17,17 @@ const Login = () => {
         try {
             event.preventDefault();
             setIsLoading(true);
-            const {data} = await axios.post(`/api/user/${state}`, {name, email, password})
+            
+            let endpoint = '';
+            if(loginType === 'user'){
+                endpoint = `/api/user/${state}`;
+            } else if(loginType === 'vendor'){
+                endpoint = state === 'login' ? '/api/user/vendor/login' : '/api/user/vendor/register';
+            } else if(loginType === 'admin'){
+                endpoint = '/api/user/admin/login';
+            }
+
+            const {data} = await axios.post(endpoint, {name, email, password})
 
             if (data.success) {
                 navigate('/')
@@ -76,11 +86,43 @@ const Login = () => {
             className="text-center"
         >
             <h2 className="text-3xl font-bold text-gray-900">
-                {state === "login" ? "Welcome Back" : "Create Account"}
+                {loginType === 'admin' ? 'Admin Login' : 
+                 loginType === 'vendor' ? (state === "login" ? "Vendor Login" : "Vendor Signup") :
+                 (state === "login" ? "Welcome Back" : "Create Account")}
             </h2>
             <p className="text-gray-600 mt-2">
-                {state === "login" ? "Sign in to your account" : "Join us today"}
+                {loginType === 'admin' ? 'Sign in as administrator' :
+                 loginType === 'vendor' ? (state === "login" ? "Sign in to manage your cars" : "Register as a vendor") :
+                 (state === "login" ? "Sign in to your account" : "Join us today")}
             </p>
+            
+            {/* Login Type Selector */}
+            {loginType !== 'admin' && (
+                <div className="flex gap-2 mt-4 justify-center">
+                    <button
+                        type="button"
+                        onClick={() => setLoginType('user')}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                            loginType === 'user' 
+                                ? 'bg-blue-600 text-white' 
+                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                    >
+                        User
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setLoginType('vendor')}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                            loginType === 'vendor' 
+                                ? 'bg-green-600 text-white' 
+                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                    >
+                        Vendor
+                    </button>
+                </div>
+            )}
         </motion.div>
 
         {/* Close Button */}
@@ -155,38 +197,40 @@ const Login = () => {
             />
         </motion.div>
 
-        {/* Toggle Link */}
-        <motion.div
-            custom={state === "register" ? 3 : 2}
-            variants={inputVariants}
-            initial="hidden"
-            animate="visible"
-            className="text-center"
-        >
-            {state === "register" ? (
-                <p className="text-sm text-gray-600">
-                    Already have account? 
-                    <button
-                        type="button"
-                        onClick={() => {setState("login"); setName(""); setEmail(""); setPassword("");}}
-                        className="text-blue-600 font-semibold hover:text-blue-700 transition-colors ml-1"
-                    >
-                        Sign in
-                    </button>
-                </p>
-            ) : (
-                <p className="text-sm text-gray-600">
-                    Don't have account? 
-                    <button
-                        type="button"
-                        onClick={() => {setState("register"); setName(""); setEmail(""); setPassword("");}}
-                        className="text-blue-600 font-semibold hover:text-blue-700 transition-colors ml-1"
-                    >
-                        Create one
-                    </button>
-                </p>
-            )}
-        </motion.div>
+        {/* Toggle Link - Only for user and vendor, not admin */}
+        {loginType !== 'admin' && (
+            <motion.div
+                custom={state === "register" ? 3 : 2}
+                variants={inputVariants}
+                initial="hidden"
+                animate="visible"
+                className="text-center"
+            >
+                {state === "register" ? (
+                    <p className="text-sm text-gray-600">
+                        Already have account? 
+                        <button
+                            type="button"
+                            onClick={() => {setState("login"); setName(""); setEmail(""); setPassword("");}}
+                            className="text-blue-600 font-semibold hover:text-blue-700 transition-colors ml-1"
+                        >
+                            Sign in
+                        </button>
+                    </p>
+                ) : (
+                    <p className="text-sm text-gray-600">
+                        Don't have account? 
+                        <button
+                            type="button"
+                            onClick={() => {setState("register"); setName(""); setEmail(""); setPassword("");}}
+                            className="text-blue-600 font-semibold hover:text-blue-700 transition-colors ml-1"
+                        >
+                            Create one
+                        </button>
+                    </p>
+                )}
+            </motion.div>
+        )}
 
         {/* Submit Button */}
         <motion.button 

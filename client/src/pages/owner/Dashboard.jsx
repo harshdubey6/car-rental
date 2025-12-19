@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 
 const Dashboard = () => {
 
-  const {axios, isOwner, currency} = useAppContext()
+  const {axios, isVendor, currency} = useAppContext()
 
   const [data, setData] = useState({
     totalCars: 0,
@@ -26,7 +26,7 @@ const Dashboard = () => {
 
   const fetchDashboardData = async ()=>{
     try {
-       const { data } = await axios.get('/api/owner/dashboard')
+       const { data } = await axios.get('/api/vendor/dashboard')
        if (data.success){
         setData(data.dashboardData)
        }else{
@@ -38,14 +38,14 @@ const Dashboard = () => {
   }
 
   useEffect(()=>{
-    if(isOwner){
+    if(isVendor){
       fetchDashboardData()
     }
-  },[isOwner])
+  },[isVendor])
 
   return (
     <div className='px-4 pt-10 md:px-10 flex-1'>
-      <Title title="Admin Dashboard" subTitle="Monitor overall platform performance including total cars, bookings, revenue, and recent activities"/>
+      <Title title="Vendor Dashboard" subTitle="Monitor your car listings, bookings, revenue, and recent activities"/>
 
       <div className='grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 my-8 max-w-3xl'>
         {dashboardCards.map((card, index)=>(

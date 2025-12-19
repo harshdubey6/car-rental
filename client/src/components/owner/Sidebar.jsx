@@ -15,7 +15,7 @@ const Sidebar = () => {
           const formData = new FormData()
           formData.append('image', image)
 
-          const {data} = await axios.post('/api/owner/update-image', formData)
+          const {data} = await axios.post('/api/vendor/update-image', formData)
 
           if(data.success){
             fetchUser()

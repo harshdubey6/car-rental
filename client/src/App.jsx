@@ -11,6 +11,10 @@ import Dashboard from './pages/owner/Dashboard'
 import AddCar from './pages/owner/AddCar'
 import ManageCars from './pages/owner/ManageCars'
 import ManageBookings from './pages/owner/ManageBookings'
+import AdminLayout from './pages/admin/Layout'
+import AdminDashboard from './pages/admin/Dashboard'
+import ManageUsers from './pages/admin/ManageUsers'
+import ManageVendors from './pages/admin/ManageVendors'
 import Login from './components/Login'
 import { Toaster } from 'react-hot-toast'
 import { useAppContext } from './context/AppContext'
@@ -18,29 +22,36 @@ import { useAppContext } from './context/AppContext'
 const App = () => {
 
   const {showLogin} = useAppContext()
-  const isOwnerPath = useLocation().pathname.startsWith('/owner')
+  const location = useLocation()
+  const isVendorPath = location.pathname.startsWith('/vendor')
+  const isAdminPath = location.pathname.startsWith('/admin')
 
   return (
     <>
      <Toaster />
       {showLogin && <Login/>}
 
-      {!isOwnerPath && <Navbar/>}
+      {!isVendorPath && !isAdminPath && <Navbar/>}
 
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/car-details/:id' element={<CarDetails/>}/>
       <Route path='/cars' element={<Cars/>}/>
       <Route path='/my-bookings' element={<MyBookings/>}/>
-      <Route path='/owner' element={<Layout />}>
+      <Route path='/vendor' element={<Layout />}>
         <Route index element={<Dashboard />}/>
         <Route path="add-car" element={<AddCar />}/>
         <Route path="manage-cars" element={<ManageCars />}/>
         <Route path="manage-bookings" element={<ManageBookings />}/>
       </Route>
+      <Route path='/admin' element={<AdminLayout />}>
+        <Route index element={<AdminDashboard />}/>
+        <Route path="users" element={<ManageUsers />}/>
+        <Route path="vendors" element={<ManageVendors />}/>
+      </Route>
     </Routes>
 
-    {!isOwnerPath && <Footer />}
+    {!isVendorPath && !isAdminPath && <Footer />}
     
     </>
   )

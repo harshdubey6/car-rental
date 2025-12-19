@@ -7,23 +7,39 @@ import {motion} from 'motion/react'
 
 const Navbar = () => {
 
-    const {setShowLogin, user, logout, isOwner, axios, setIsOwner} = useAppContext()
+    const {setShowLogin, user, logout, isVendor, isAdmin, setLoginType} = useAppContext()
 
     const location = useLocation()
     const [open, setOpen] = useState(false)
     const navigate = useNavigate()
 
-    const changeRole = async ()=>{
-        try {
-            const { data } = await axios.post('/api/owner/change-role')
-            if (data.success) {
-                setIsOwner(true)
-                toast.success(data.message)
-            }else{
-                toast.error(data.message)
+    const handleVendorClick = () => {
+        if(user){
+            if(isVendor){
+                navigate('/vendor')
+            } else {
+                toast.error('Please login as vendor')
+                setLoginType('vendor')
+                setShowLogin(true)
             }
-        } catch (error) {
-            toast.error(error.message)
+        } else {
+            setLoginType('vendor')
+            setShowLogin(true)
+        }
+    }
+
+    const handleAdminClick = () => {
+        if(user){
+            if(isAdmin){
+                navigate('/admin')
+            } else {
+                toast.error('Please login as admin')
+                setLoginType('admin')
+                setShowLogin(true)
+            }
+        } else {
+            setLoginType('admin')
+            setShowLogin(true)
         }
     }
 
@@ -76,17 +92,30 @@ const Navbar = () => {
 
         {/* Desktop Actions */}
         <div className='hidden md:flex items-center gap-4'>
-            <motion.button 
-                onClick={()=> isOwner ? navigate('/owner') : changeRole()} 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
-            >
-                {isOwner ? '📊 Dashboard' : '🏢 List Cars'}
-            </motion.button>
+            {!isAdmin && (
+                <motion.button 
+                    onClick={handleVendorClick}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-4 py-2 text-sm font-medium text-green-600 hover:bg-green-50 rounded-lg transition-all"
+                >
+                    {isVendor ? '📊 Vendor Dashboard' : '🏢 Vendor Login'}
+                </motion.button>
+            )}
+            
+            {!isVendor && (
+                <motion.button 
+                    onClick={handleAdminClick}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="px-4 py-2 text-sm font-medium text-purple-600 hover:bg-purple-50 rounded-lg transition-all"
+                >
+                    {isAdmin ? '⚙️ Admin Panel' : '🔐 Admin Login'}
+                </motion.button>
+            )}
 
             <motion.button 
-                onClick={()=> {user ? logout() : setShowLogin(true)}} 
+                onClick={()=> {user ? logout() : (setLoginType('user'), setShowLogin(true))}} 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white rounded-lg font-medium transition-all shadow-md hover:shadow-lg text-sm"
@@ -142,16 +171,28 @@ const Navbar = () => {
                 ))}
 
                 <div className="border-t border-gray-200 pt-4 flex flex-col gap-3">
-                    <motion.button 
-                        onClick={()=> {isOwner ? navigate('/owner') : changeRole(); setOpen(false)}}
-                        whileHover={{ scale: 1.02 }}
-                        className="w-full px-4 py-2.5 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg transition-all text-left"
-                    >
-                        {isOwner ? '📊 Dashboard' : '🏢 List Cars'}
-                    </motion.button>
+                    {!isAdmin && (
+                        <motion.button 
+                            onClick={()=> {handleVendorClick(); setOpen(false)}}
+                            whileHover={{ scale: 1.02 }}
+                            className="w-full px-4 py-2.5 text-sm font-medium text-green-600 bg-green-50 rounded-lg transition-all text-left"
+                        >
+                            {isVendor ? '📊 Vendor Dashboard' : '🏢 Vendor Login'}
+                        </motion.button>
+                    )}
+                    
+                    {!isVendor && (
+                        <motion.button 
+                            onClick={()=> {handleAdminClick(); setOpen(false)}}
+                            whileHover={{ scale: 1.02 }}
+                            className="w-full px-4 py-2.5 text-sm font-medium text-purple-600 bg-purple-50 rounded-lg transition-all text-left"
+                        >
+                            {isAdmin ? '⚙️ Admin Panel' : '🔐 Admin Login'}
+                        </motion.button>
+                    )}
 
                     <motion.button 
-                        onClick={()=> {user ? logout() : setShowLogin(true); setOpen(false)}}
+                        onClick={()=> {user ? logout() : (setLoginType('user'), setShowLogin(true)); setOpen(false)}}
                         whileHover={{ scale: 1.02 }}
                         className="w-full px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg font-medium text-sm"
                     >

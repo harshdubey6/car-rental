@@ -14,8 +14,10 @@ export const AppProvider = ({ children })=>{
 
     const [token, setToken] = useState(null)
     const [user, setUser] = useState(null)
-    const [isOwner, setIsOwner] = useState(false)
+    const [isVendor, setIsVendor] = useState(false)
+    const [isAdmin, setIsAdmin] = useState(false)
     const [showLogin, setShowLogin] = useState(false)
+    const [loginType, setLoginType] = useState('user') // 'user', 'vendor', 'admin'
     const [pickupDate, setPickupDate] = useState('')
     const [returnDate, setReturnDate] = useState('')
 
@@ -27,7 +29,8 @@ export const AppProvider = ({ children })=>{
            const {data} = await axios.get('/api/user/data')
            if (data.success) {
             setUser(data.user)
-            setIsOwner(data.user.role === 'owner')
+            setIsVendor(data.user.role === 'vendor')
+            setIsAdmin(data.user.role === 'admin')
            }else{
             navigate('/')
            }
@@ -51,7 +54,8 @@ export const AppProvider = ({ children })=>{
         localStorage.removeItem('token')
         setToken(null)
         setUser(null)
-        setIsOwner(false)
+        setIsVendor(false)
+        setIsAdmin(false)
         axios.defaults.headers.common['Authorization'] = ''
         toast.success('You have been logged out')
     }
@@ -74,7 +78,8 @@ export const AppProvider = ({ children })=>{
 
     const value = {
         navigate, currency, axios, user, setUser,
-        token, setToken, isOwner, setIsOwner, fetchUser, showLogin, setShowLogin, logout, fetchCars, cars, setCars, 
+        token, setToken, isVendor, setIsVendor, isAdmin, setIsAdmin, fetchUser, 
+        showLogin, setShowLogin, loginType, setLoginType, logout, fetchCars, cars, setCars, 
         pickupDate, setPickupDate, returnDate, setReturnDate
     }
 
