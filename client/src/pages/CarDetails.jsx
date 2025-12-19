@@ -41,14 +41,14 @@ const CarDetails = () => {
   },[cars, id])
 
   return car ? (
-    <div className='px-6 md:px-16 lg:px-24 xl:px-32 mt-16'>
+    <div className='px-4 sm:px-6 md:px-12 lg:px-20 xl:px-24 mt-14 sm:mt-16'>
 
-      <button onClick={()=> navigate(-1)} className='flex items-center gap-2 mb-6 text-gray-500 cursor-pointer'>
-        <img src={assets.arrow_icon} alt="" className='rotate-180 opacity-65'/>
+      <button onClick={()=> navigate(-1)} className='flex items-center gap-2 mb-6 text-gray-500 cursor-pointer text-sm sm:text-base'>
+        <img src={assets.arrow_icon} alt="" className='rotate-180 opacity-65 w-4 h-4 sm:w-5 sm:h-5'/>
         Back to all cars
        </button>
 
-       <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12'>
+       <div className='grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start'>
           {/* Left: Car Image & Details */}
           <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -68,12 +68,12 @@ const CarDetails = () => {
               transition={{ delay: 0.2, duration: 0.5 }}
               >
                 <div>
-                  <h1 className='text-3xl font-bold'>{car.brand} {car.model}</h1>
-                  <p className='text-gray-500 text-lg'>{car.category} • {car.year}</p>
+                  <h1 className='text-2xl sm:text-3xl font-bold'>{car.brand} {car.model}</h1>
+                  <p className='text-gray-500 text-base sm:text-lg'>{car.category} • {car.year}</p>
                 </div>
                 <hr className='border-borderColor my-6'/>
 
-                <div className='grid grid-cols-2 sm:grid-cols-4 gap-4'>
+                <div className='grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4'>
                   {[
                     {icon: assets.users_icon, text: `${car.seating_capacity} Seats`},
                     {icon: assets.fuel_icon, text: car.fuel_type},
@@ -85,9 +85,9 @@ const CarDetails = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4 }}
                     
-                    key={text} className='flex flex-col items-center bg-light p-4 rounded-lg'>
+                    key={text} className='flex flex-col items-center bg-light p-3 sm:p-4 rounded-lg text-sm sm:text-base text-gray-700'>
                       <img src={icon} alt="" className='h-5 mb-2'/>
-                      {text}
+                      <span className='text-center'>{text}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -122,7 +122,7 @@ const CarDetails = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
 
-          onSubmit={handleSubmit} className='shadow-lg h-max sticky top-18 rounded-xl p-6 space-y-6 text-gray-500'>
+          onSubmit={handleSubmit} className='shadow-lg h-max md:sticky md:top-20 rounded-xl p-5 sm:p-6 space-y-6 text-gray-500 border border-gray-100'>
 
             <p className='flex items-center justify-between text-2xl text-gray-800 font-semibold'>{currency}{car.pricePerDay}<span className='text-base text-gray-400 font-normal'>per day</span></p> 
 

@@ -19,22 +19,22 @@ const Hero = () => {
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     transition={{ duration: 0.8 }}
-    className='relative min-h-screen flex flex-col items-center justify-center gap-12 bg-gradient-to-b from-blue-50 via-white to-gray-50 text-center overflow-hidden py-12'>
+    className='relative min-h-[80vh] sm:min-h-[90vh] flex flex-col items-center justify-center gap-10 sm:gap-12 bg-gradient-to-b from-blue-50 via-white to-gray-50 text-center overflow-hidden pt-16 pb-14 px-4 sm:px-6 md:px-10'>
 
         {/* Decorative Elements */}
-        <div className="absolute top-0 left-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -z-10"></div>
-        <div className="absolute -bottom-8 right-0 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -z-10"></div>
+        <div className="absolute top-0 left-0 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -z-10"></div>
+        <div className="absolute -bottom-10 right-0 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -z-10"></div>
 
         <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center px-4"
+            className="text-center px-2 sm:px-4"
         >
-            <h1 className='text-5xl md:text-7xl font-bold bg-gradient-to-r from-gray-900 via-blue-600 to-gray-900 bg-clip-text text-transparent leading-tight'>
+            <h1 className='text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-600 to-gray-900 bg-clip-text text-transparent leading-tight'>
                 Luxury Cars on Rent
             </h1>
-            <p className='text-gray-600 text-lg md:text-xl mt-4'>Find and book premium vehicles for your next adventure</p>
+            <p className='text-gray-600 text-base sm:text-lg md:text-xl mt-4'>Find and book premium vehicles for your next adventure</p>
         </motion.div>
       
         <motion.form
@@ -42,10 +42,10 @@ const Hero = () => {
             animate={{ scale: 1, opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             onSubmit={handleSearch} 
-            className='flex flex-col lg:flex-row items-stretch lg:items-center justify-between p-6 lg:p-8 rounded-2xl lg:rounded-full w-full max-w-2xl lg:max-w-7xl mx-4 bg-white shadow-2xl border border-gray-200'
+            className='flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 lg:gap-6 p-5 sm:p-6 lg:p-8 rounded-2xl lg:rounded-full w-full max-w-3xl md:max-w-5xl lg:max-w-6xl mx-auto bg-white shadow-2xl border border-gray-200'
         >
 
-            <div className='flex flex-col lg:flex-row items-stretch lg:items-center gap-4 lg:gap-6 flex-1'>
+            <div className='flex flex-col lg:flex-row items-stretch lg:items-center gap-4 lg:gap-6 flex-1 w-full'>
                 {/* Location Select */}
                 <motion.div 
                     className='flex flex-col gap-2 flex-1'
@@ -101,7 +101,7 @@ const Hero = () => {
             <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className='flex items-center justify-center gap-2 px-8 py-3 lg:ml-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white rounded-lg lg:rounded-full cursor-pointer font-semibold transition-all shadow-lg hover:shadow-xl whitespace-nowrap mt-4 lg:mt-0'
+                className='w-full lg:w-auto flex items-center justify-center gap-2 px-6 sm:px-8 py-3 lg:ml-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white rounded-lg lg:rounded-full cursor-pointer font-semibold transition-all shadow-lg hover:shadow-xl whitespace-nowrap mt-2 lg:mt-0'
             >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

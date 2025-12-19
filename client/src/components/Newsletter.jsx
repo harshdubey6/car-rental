@@ -33,7 +33,7 @@ const Newsletter = () => {
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6, ease: 'easeOut' }}
     viewport={{ once: true }}
-    className="flex flex-col items-center justify-center text-center space-y-6 px-4 py-20 my-10 mb-40 max-w-4xl mx-auto"
+    className="flex flex-col items-center justify-center text-center space-y-6 px-4 sm:px-6 py-16 sm:py-20 my-10 mb-28 sm:mb-36 max-w-4xl mx-auto"
     >
 
         {/* Heading */}
@@ -81,7 +81,7 @@ const Newsletter = () => {
               disabled={isLoading}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:from-blue-400 disabled:to-blue-300 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 whitespace-nowrap"
+              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 disabled:from-blue-400 disabled:to-blue-300 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 whitespace-nowrap w-full sm:w-auto"
             >
               {isLoading ? (
                 <>

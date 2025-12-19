@@ -13,7 +13,7 @@ const Banner = () => {
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6 }}
     viewport={{ once: true }}
-    className='flex flex-col md:flex-row md:items-center items-center justify-between px-6 md:px-10 lg:px-16 py-12 md:py-16 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 max-w-7xl mx-auto rounded-3xl overflow-hidden shadow-2xl relative'
+    className='flex flex-col md:flex-row md:items-center items-center justify-between gap-10 px-4 sm:px-8 md:px-10 lg:px-14 py-12 md:py-16 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 max-w-7xl mx-auto rounded-3xl overflow-hidden shadow-2xl relative'
     >
 
         {/* Decorative Background */}
@@ -27,13 +27,13 @@ const Banner = () => {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className='text-white z-10 flex-1'
+            className='text-white z-10 flex-1 text-center md:text-left'
         >
             <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1, duration: 0.5 }}
-                className='text-4xl md:text-5xl font-bold leading-tight'
+                className='text-3xl sm:text-4xl md:text-5xl font-bold leading-tight'
             >
                 Own a Luxury Car?
             </motion.h2>
@@ -42,7 +42,7 @@ const Banner = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
-                className='mt-4 text-lg text-blue-100 max-w-xl'
+                className='mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto md:mx-0'
             >
                 Turn your vehicle into a passive income stream. Monetize your luxury car with our secure, hassle-free rental platform.
             </motion.p>
@@ -51,7 +51,7 @@ const Banner = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
-                className='mt-2 text-blue-100 flex items-center gap-2'
+                className='mt-2 text-blue-100 flex items-center gap-2 justify-center md:justify-start'
             >
                 <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
@@ -62,7 +62,7 @@ const Banner = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
-                className='mt-1 text-blue-100 flex items-center gap-2'
+                className='mt-1 text-blue-100 flex items-center gap-2 justify-center md:justify-start'
             >
                 <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
@@ -77,7 +77,7 @@ const Banner = () => {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => !user && setShowLogin(true)}
-                className='mt-8 px-8 py-3.5 bg-white hover:bg-blue-50 text-blue-600 font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl cursor-pointer'
+                className='mt-8 px-8 py-3.5 bg-white hover:bg-blue-50 text-blue-600 font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl cursor-pointer w-full sm:w-auto'
             >
                 List Your Car Now
             </motion.button>
@@ -88,7 +88,7 @@ const Banner = () => {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className='mt-10 md:mt-0 flex-1 relative'
+            className='mt-6 md:mt-0 flex-1 relative max-w-xl w-full'
         >
             <motion.img 
                 animate={{ y: [0, -20, 0] }}

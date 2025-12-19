@@ -30,14 +30,14 @@ const Testimonial = () => {
     ];
 
   return (
-    <section className="py-24 px-6 md:px-10 lg:px-16 xl:px-20 bg-gradient-to-b from-white to-blue-50">
+    <section className="py-20 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-16 bg-gradient-to-b from-white to-blue-50">
             
         <Title 
           title="Customer Reviews" 
           subTitle="Join thousands of satisfied customers who trust us for their luxury car rentals"
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-14 max-w-6xl mx-auto">
             {testimonials.map((testimonial, index) => (
                 <motion.div 
                 initial={{ opacity: 0, y: 40 }}

@@ -48,7 +48,8 @@ const Navbar = () => {
     initial={{y: -20, opacity: 0}}
     animate={{y: 0, opacity: 1}}
     transition={{duration: 0.5}}
-    className={`flex items-center justify-between px-6 md:px-10 lg:px-16 xl:px-24 py-4 text-gray-700 border-b border-gray-200 relative transition-all backdrop-blur-md bg-white/95 ${location.pathname === "/" && "bg-gradient-to-b from-white/98 to-white/95"}`}>
+    className={`px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-4 text-gray-700 border-b border-gray-200 relative transition-all backdrop-blur-md bg-white/95 ${location.pathname === "/" && "bg-gradient-to-b from-white/98 to-white/95"}`}>
+        <div className="w-full max-w-6xl mx-auto flex items-center justify-between gap-3">
 
         <Link to='/' className="flex items-center gap-2">
             <motion.img 
@@ -156,9 +157,18 @@ const Navbar = () => {
                 pointerEvents: open ? 'auto' : 'none'
             }}
             transition={{ duration: 0.3 }}
-            className={`md:hidden absolute top-16 right-0 left-0 bg-white border-t border-gray-200 shadow-xl z-50`}
+            className={`md:hidden absolute top-16 inset-x-4 sm:inset-x-6 bg-white border border-gray-200 shadow-xl z-50 rounded-2xl overflow-hidden`}
         >
-            <div className="p-6 flex flex-col gap-4">
+            <div className="p-5 flex flex-col gap-4">
+                <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-gray-50 border border-gray-200 shadow-sm">
+                    <img src={assets.search_icon} alt="search" className="w-4 h-4 opacity-70"/>
+                    <input 
+                        type="search" 
+                        placeholder="Search cars" 
+                        className="flex-1 bg-transparent text-sm text-gray-700 outline-none"
+                    />
+                </div>
+
                 {menuLinks.map((link, index)=> (
                     <Link 
                         key={index}
@@ -201,7 +211,7 @@ const Navbar = () => {
                 </div>
             </div>
         </motion.div>
-      
+      </div>
     </motion.nav>
   )
 }

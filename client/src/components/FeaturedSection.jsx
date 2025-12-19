@@ -17,7 +17,7 @@ const FeaturedSection = () => {
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 1, ease: "easeOut" }}
     viewport={{ once: true }}
-    className='flex flex-col items-center py-24 px-6 md:px-10 lg:px-16 xl:px-20 bg-gradient-to-b from-white via-blue-50 to-white'
+    className='flex flex-col items-center py-20 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-16 bg-gradient-to-b from-white via-blue-50 to-white w-full'
     >
 
         {/* Title */}
@@ -39,7 +39,7 @@ const FeaturedSection = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 1 }}
         viewport={{ once: true }}
-        className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-16 w-full'
+        className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-14 w-full max-w-6xl'
         >
         {
             cars.slice(0,6).map((car, index)=> (

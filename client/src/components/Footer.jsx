@@ -10,7 +10,7 @@ const Footer = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className='px-6 md:px-10 lg:px-16 xl:px-20 mt-24 bg-gradient-to-b from-white to-gray-50 border-t border-gray-200'
+        className='px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 mt-20 sm:mt-24 bg-gradient-to-b from-white to-gray-50 border-t border-gray-200'
     >
 
         {/* Main Footer Content */}
@@ -19,7 +19,7 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
-            className='flex flex-col md:flex-row justify-between items-start gap-12 py-16'
+            className='flex flex-col md:flex-row justify-between items-start gap-10 sm:gap-12 py-14 sm:py-16'
         >
 
             {/* Company Info */}
