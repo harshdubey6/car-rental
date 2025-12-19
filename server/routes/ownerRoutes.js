@@ -1,17 +1,26 @@
 import express from "express";
 import { protect } from "../middleware/auth.js";
-import { addCar, changeRoleToOwner, deleteCar, getDashboardData, getOwnerCars, toggleCarAvailability, updateUserImage } from "../controllers/ownerController.js";
+import { addCar, deleteCar, getDashboardData, getOwnerCars, toggleCarAvailability, updateUserImage } from "../controllers/ownerController.js";
 import upload from "../middleware/multer.js";
 
-const ownerRouter = express.Router();
+const vendorRouter = express.Router();
 
-ownerRouter.post("/change-role", protect, changeRoleToOwner)
-ownerRouter.post("/add-car", upload.single("image"), protect, addCar)
-ownerRouter.get("/cars", protect, getOwnerCars)
-ownerRouter.post("/toggle-car", protect, toggleCarAvailability)
-ownerRouter.post("/delete-car", protect, deleteCar)
+// All vendor routes require authentication and vendor role
+vendorRouter.use(protect);
 
-ownerRouter.get('/dashboard', protect, getDashboardData)
-ownerRouter.post('/update-image', upload.single("image"), protect, updateUserImage)
+// Middleware to check vendor role
+vendorRouter.use((req, res, next) => {
+    if(req.user.role !== 'vendor'){
+        return res.json({ success: false, message: "Vendor access required" });
+    }
+    next();
+});
 
-export default ownerRouter;
+vendorRouter.post("/add-car", upload.single("image"), addCar)
+vendorRouter.get("/cars", getOwnerCars)
+vendorRouter.post("/toggle-car", toggleCarAvailability)
+vendorRouter.post("/delete-car", deleteCar)
+vendorRouter.get('/dashboard', getDashboardData)
+vendorRouter.post('/update-image', upload.single("image"), updateUserImage)
+
+export default vendorRouter;
