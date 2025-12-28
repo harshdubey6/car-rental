@@ -65,7 +65,7 @@ const Login = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={()=> setShowLogin(false)} 
-        className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4'
+        className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-3 sm:p-4 overflow-y-auto'
     >
 
       <motion.form 
@@ -75,7 +75,7 @@ const Login = () => {
         transition={{ duration: 0.3, type: 'spring', stiffness: 300, damping: 30 }}
         onSubmit={onSubmitHandler} 
         onClick={(e)=>e.stopPropagation()} 
-        className="flex flex-col gap-6 w-full max-w-md p-8 rounded-2xl shadow-2xl bg-white"
+        className="flex flex-col gap-4 sm:gap-6 w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-2xl bg-white my-auto relative"
       >
 
         {/* Header */}
@@ -85,12 +85,12 @@ const Login = () => {
             transition={{ delay: 0.1, duration: 0.4 }}
             className="text-center"
         >
-            <h2 className="text-3xl font-bold text-gray-900">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
                 {loginType === 'admin' ? 'Admin Login' : 
                  loginType === 'vendor' ? (state === "login" ? "Vendor Login" : "Vendor Signup") :
                  (state === "login" ? "Welcome Back" : "Create Account")}
             </h2>
-            <p className="text-gray-600 mt-2">
+            <p className="text-gray-600 mt-2 text-sm sm:text-base">
                 {loginType === 'admin' ? 'Sign in as administrator' :
                  loginType === 'vendor' ? (state === "login" ? "Sign in to manage your cars" : "Register as a vendor") :
                  (state === "login" ? "Sign in to your account" : "Join us today")}
@@ -98,11 +98,11 @@ const Login = () => {
             
             {/* Login Type Selector */}
             {loginType !== 'admin' && (
-                <div className="flex gap-2 mt-4 justify-center">
+                <div className="flex gap-2 mt-3 sm:mt-4 justify-center">
                     <button
                         type="button"
                         onClick={() => setLoginType('user')}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
                             loginType === 'user' 
                                 ? 'bg-blue-600 text-white' 
                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -113,7 +113,7 @@ const Login = () => {
                     <button
                         type="button"
                         onClick={() => setLoginType('vendor')}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
                             loginType === 'vendor' 
                                 ? 'bg-green-600 text-white' 
                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -129,11 +129,11 @@ const Login = () => {
         <motion.button
             type="button"
             onClick={()=> setShowLogin(false)}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-gray-600 transition-colors p-1"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
         >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
         </motion.button>
@@ -145,14 +145,14 @@ const Login = () => {
                 variants={inputVariants}
                 initial="hidden"
                 animate="visible"
-                className="flex flex-col gap-2"
+                className="flex flex-col gap-1.5 sm:gap-2"
             >
-                <label className="text-sm font-semibold text-gray-700">Full Name</label>
+                <label className="text-xs sm:text-sm font-semibold text-gray-700">Full Name</label>
                 <input 
                     onChange={(e) => setName(e.target.value)} 
                     value={name} 
                     placeholder="John Doe" 
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all" 
+                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm sm:text-base" 
                     type="text" 
                     required 
                 />
@@ -165,14 +165,14 @@ const Login = () => {
             variants={inputVariants}
             initial="hidden"
             animate="visible"
-            className="flex flex-col gap-2"
+            className="flex flex-col gap-1.5 sm:gap-2"
         >
-            <label className="text-sm font-semibold text-gray-700">Email Address</label>
+            <label className="text-xs sm:text-sm font-semibold text-gray-700">Email Address</label>
             <input 
                 onChange={(e) => setEmail(e.target.value)} 
                 value={email} 
                 placeholder="you@example.com" 
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all" 
+                className="w-full px-3 py-2.5 sm:px-4 sm:py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm sm:text-base" 
                 type="email" 
                 required 
             />
@@ -184,14 +184,14 @@ const Login = () => {
             variants={inputVariants}
             initial="hidden"
             animate="visible"
-            className="flex flex-col gap-2"
+            className="flex flex-col gap-1.5 sm:gap-2"
         >
-            <label className="text-sm font-semibold text-gray-700">Password</label>
+            <label className="text-xs sm:text-sm font-semibold text-gray-700">Password</label>
             <input 
                 onChange={(e) => setPassword(e.target.value)} 
                 value={password} 
                 placeholder="••••••••" 
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all" 
+                className="w-full px-3 py-2.5 sm:px-4 sm:py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-sm sm:text-base" 
                 type="password" 
                 required 
             />
@@ -207,7 +207,7 @@ const Login = () => {
                 className="text-center"
             >
                 {state === "register" ? (
-                    <p className="text-sm text-gray-600">
+                    <p className="text-xs sm:text-sm text-gray-600">
                         Already have account? 
                         <button
                             type="button"
@@ -218,7 +218,7 @@ const Login = () => {
                         </button>
                     </p>
                 ) : (
-                    <p className="text-sm text-gray-600">
+                    <p className="text-xs sm:text-sm text-gray-600">
                         Don't have account? 
                         <button
                             type="button"
@@ -242,14 +242,14 @@ const Login = () => {
             disabled={isLoading}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+            className="w-full py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm sm:text-base"
         >
             {isLoading ? (
                 <>
                     <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity }}
-                        className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                        className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full"
                     />
                     Processing...
                 </>

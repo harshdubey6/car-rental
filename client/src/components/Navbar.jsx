@@ -48,8 +48,8 @@ const Navbar = () => {
     initial={{y: -20, opacity: 0}}
     animate={{y: 0, opacity: 1}}
     transition={{duration: 0.5}}
-    className={`px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-4 text-gray-700 border-b border-gray-200 relative transition-all backdrop-blur-md bg-white/95 ${location.pathname === "/" && "bg-gradient-to-b from-white/98 to-white/95"}`}>
-        <div className="w-full max-w-6xl mx-auto flex items-center justify-between gap-3">
+    className={`px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-4 text-gray-700 border-b border-gray-200 relative z-40 transition-all backdrop-blur-md bg-white/95 ${location.pathname === "/" && "bg-gradient-to-b from-white/98 to-white/95"}`}>
+        <div className="w-full max-w-6xl mx-auto flex items-center justify-between gap-3 relative z-50">
 
         <Link to='/' className="flex items-center gap-2">
             <motion.img 
@@ -150,67 +150,67 @@ const Navbar = () => {
         </motion.button>
 
         {/* Mobile Menu */}
-        <motion.div 
-            animate={{ 
-                opacity: open ? 1 : 0,
-                y: open ? 0 : -20,
-                pointerEvents: open ? 'auto' : 'none'
-            }}
-            transition={{ duration: 0.3 }}
-            className={`md:hidden absolute top-16 inset-x-4 sm:inset-x-6 bg-white border border-gray-200 shadow-xl z-50 rounded-2xl overflow-hidden`}
-        >
-            <div className="p-5 flex flex-col gap-4">
-                <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-gray-50 border border-gray-200 shadow-sm">
-                    <img src={assets.search_icon} alt="search" className="w-4 h-4 opacity-70"/>
-                    <input 
-                        type="search" 
-                        placeholder="Search cars" 
-                        className="flex-1 bg-transparent text-sm text-gray-700 outline-none"
-                    />
-                </div>
+        {open && (
+            <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="md:hidden fixed top-20 left-0 right-0 mx-4 bg-white border border-gray-200 shadow-2xl z-[100] rounded-2xl overflow-hidden max-h-[calc(100vh-6rem)] overflow-y-auto"
+            >
+                <div className="p-4 sm:p-5 flex flex-col gap-3 sm:gap-4">
+                    <div className="flex items-center gap-2 sm:gap-3 px-3 py-2.5 rounded-xl bg-gray-50 border border-gray-200 shadow-sm">
+                        <img src={assets.search_icon} alt="search" className="w-4 h-4 opacity-70 flex-shrink-0"/>
+                        <input 
+                            type="search" 
+                            placeholder="Search cars" 
+                            className="flex-1 bg-transparent text-sm text-gray-700 outline-none min-w-0"
+                        />
+                    </div>
 
-                {menuLinks.map((link, index)=> (
-                    <Link 
-                        key={index}
-                        to={link.path}
-                        onClick={() => setOpen(false)}
-                        className={`text-sm font-medium py-2 transition-colors ${location.pathname === link.path ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}
-                    >
-                        {link.name}
-                    </Link>
-                ))}
-
-                <div className="border-t border-gray-200 pt-4 flex flex-col gap-3">
-                    {!isAdmin && (
-                        <motion.button 
-                            onClick={()=> {handleVendorClick(); setOpen(false)}}
-                            whileHover={{ scale: 1.02 }}
-                            className="w-full px-4 py-2.5 text-sm font-medium text-green-600 bg-green-50 rounded-lg transition-all text-left"
+                    {menuLinks.map((link, index)=> (
+                        <Link 
+                            key={index}
+                            to={link.path}
+                            onClick={() => setOpen(false)}
+                            className={`text-sm font-medium py-2.5 px-3 rounded-lg transition-colors ${location.pathname === link.path ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'}`}
                         >
-                            {isVendor ? '📊 Vendor Dashboard' : '🏢 Vendor Login'}
-                        </motion.button>
-                    )}
-                    
-                    {!isVendor && (
-                        <motion.button 
-                            onClick={()=> {handleAdminClick(); setOpen(false)}}
-                            whileHover={{ scale: 1.02 }}
-                            className="w-full px-4 py-2.5 text-sm font-medium text-purple-600 bg-purple-50 rounded-lg transition-all text-left"
-                        >
-                            {isAdmin ? '⚙️ Admin Panel' : '🔐 Admin Login'}
-                        </motion.button>
-                    )}
+                            {link.name}
+                        </Link>
+                    ))}
 
-                    <motion.button 
-                        onClick={()=> {user ? logout() : (setLoginType('user'), setShowLogin(true)); setOpen(false)}}
-                        whileHover={{ scale: 1.02 }}
-                        className="w-full px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg font-medium text-sm"
-                    >
-                        {user ? 'Logout' : 'Sign In'}
-                    </motion.button>
+                    <div className="border-t border-gray-200 pt-4 flex flex-col gap-3">
+                        {!isAdmin && (
+                            <motion.button 
+                                onClick={()=> {handleVendorClick(); setOpen(false)}}
+                                whileHover={{ scale: 1.02 }}
+                                className="w-full px-4 py-2.5 text-sm font-medium text-green-600 bg-green-50 rounded-lg transition-all text-left"
+                            >
+                                {isVendor ? '📊 Vendor Dashboard' : '🏢 Vendor Login'}
+                            </motion.button>
+                        )}
+                        
+                        {!isVendor && (
+                            <motion.button 
+                                onClick={()=> {handleAdminClick(); setOpen(false)}}
+                                whileHover={{ scale: 1.02 }}
+                                className="w-full px-4 py-2.5 text-sm font-medium text-purple-600 bg-purple-50 rounded-lg transition-all text-left"
+                            >
+                                {isAdmin ? '⚙️ Admin Panel' : '🔐 Admin Login'}
+                            </motion.button>
+                        )}
+
+                        <motion.button 
+                            onClick={()=> {user ? logout() : (setLoginType('user'), setShowLogin(true)); setOpen(false)}}
+                            whileHover={{ scale: 1.02 }}
+                            className="w-full px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-lg font-medium text-sm"
+                        >
+                            {user ? 'Logout' : 'Sign In'}
+                        </motion.button>
+                    </div>
                 </div>
-            </div>
-        </motion.div>
+            </motion.div>
+        )}
       </div>
     </motion.nav>
   )
