@@ -9,6 +9,8 @@ const AddCar = () => {
   const {axios, currency} = useAppContext()
 
   const [image, setImage] = useState(null)
+  const [features, setFeatures] = useState('')
+
   const [car, setCar] = useState({
     brand: '',
     model: '',
@@ -20,6 +22,7 @@ const AddCar = () => {
     seating_capacity: 0,
     location: '',
     description: '',
+    features: [],
   })
 
   const [isLoading, setIsLoading] = useState(false)
@@ -31,13 +34,15 @@ const AddCar = () => {
     try {
       const formData = new FormData()
       formData.append('image', image)
-      formData.append('carData', JSON.stringify(car))
+      const featuresArray = features.split(',').map(f => f.trim()).filter(f => f.length > 0)
+      formData.append('carData', JSON.stringify({...car, features: featuresArray}))
 
       const {data} = await axios.post('/api/vendor/add-car', formData)
 
       if(data.success){
         toast.success(data.message)
         setImage(null)
+        setFeatures('')
         setCar({
           brand: '',
           model: '',
@@ -49,6 +54,7 @@ const AddCar = () => {
           seating_capacity: 0,
           location: '',
           description: '',
+          features: [],
         })
       }else{
         toast.error(data.message)
@@ -159,6 +165,19 @@ const AddCar = () => {
             <label>Description</label>
             <textarea rows={5} placeholder="e.g. A luxurious SUV with a spacious interior and a powerful engine." required className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none' value={car.description} onChange={e=> setCar({...car, description: e.target.value})}></textarea>
           </div>
+
+        {/* Car Features */}
+        <div className='flex flex-col w-full'>
+          <label>Features <span className='text-gray-400 font-normal'>(comma-separated)</span></label>
+          <input
+            type='text'
+            placeholder='e.g. Bluetooth, GPS, Heated Seats, 360 Camera'
+            className='px-3 py-2 mt-1 border border-borderColor rounded-md outline-none'
+            value={features}
+            onChange={e => setFeatures(e.target.value)}
+          />
+          <p className='text-xs text-gray-400 mt-1'>Separate each feature with a comma</p>
+        </div>
 
         <button className='flex items-center gap-2 px-4 py-2.5 mt-4 bg-primary text-white rounded-md font-medium w-max cursor-pointer'>
           <img src={assets.tick_icon} alt="" />

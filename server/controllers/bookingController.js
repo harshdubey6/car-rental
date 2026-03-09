@@ -94,6 +94,36 @@ export const getOwnerBookings = async (req, res)=>{
     }
 }
 
+// API for user to cancel their own pending booking
+export const cancelBooking = async (req, res)=>{
+    try {
+        const {_id} = req.user;
+        const {bookingId} = req.body
+
+        const booking = await Booking.findById(bookingId)
+
+        if(!booking){
+            return res.json({ success: false, message: "Booking not found" })
+        }
+
+        if(booking.user.toString() !== _id.toString()){
+            return res.json({ success: false, message: "Unauthorized" })
+        }
+
+        if(booking.status !== 'pending'){
+            return res.json({ success: false, message: "Only pending bookings can be cancelled" })
+        }
+
+        booking.status = 'cancelled';
+        await booking.save();
+
+        res.json({ success: true, message: "Booking cancelled successfully" })
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message})
+    }
+}
+
 // API to change booking status
 export const changeBookingStatus = async (req, res)=>{
     try {

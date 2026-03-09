@@ -24,6 +24,20 @@ const MyBookings = () => {
     }
   }
 
+  const cancelBooking = async (bookingId) => {
+    try {
+      const { data } = await axios.post('/api/bookings/cancel', { bookingId })
+      if (data.success) {
+        toast.success(data.message)
+        fetchMyBookings()
+      } else {
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+
   useEffect(()=>{
     user && fetchMyBookings()
   },[user])
@@ -63,7 +77,13 @@ const MyBookings = () => {
             <div className='md:col-span-2'>
               <div className='flex items-center gap-2'>
                 <p className='px-3 py-1.5 bg-light rounded'>Booking #{index+1}</p>
-                <p className={`px-3 py-1 text-xs rounded-full ${booking.status === 'confirmed' ? 'bg-green-400/15 text-green-600' : 'bg-red-400/15 text-red-600'}`}>{booking.status}</p>
+                <p className={`px-3 py-1 text-xs rounded-full ${
+                  booking.status === 'confirmed'
+                    ? 'bg-green-400/15 text-green-600'
+                    : booking.status === 'pending'
+                    ? 'bg-yellow-400/15 text-yellow-600'
+                    : 'bg-red-400/15 text-red-600'
+                }`}>{booking.status}</p>
               </div>
 
               <div className='flex items-start gap-2 mt-3'>
@@ -83,13 +103,21 @@ const MyBookings = () => {
               </div>
             </div>
 
-           {/* Price */}
+           {/* Price + Cancel */}
            <div className='md:col-span-1 flex flex-col justify-between gap-6'>
               <div className='text-sm text-gray-500 text-right'>
                 <p>Total Price</p>
                 <h1 className='text-2xl font-semibold text-primary'>{currency}{booking.price}</h1>
                 <p>Booked on {booking.createdAt.split('T')[0]}</p>
               </div>
+              {booking.status === 'pending' && (
+                <button
+                  onClick={() => cancelBooking(booking._id)}
+                  className='w-full border border-red-400 text-red-500 hover:bg-red-50 transition-colors py-2 rounded-lg text-xs font-medium cursor-pointer'
+                >
+                  Cancel Booking
+                </button>
+              )}
            </div>
 
 
